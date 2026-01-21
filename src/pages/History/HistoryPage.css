@@ -1,0 +1,112 @@
+.history-page {
+  min-height: 100vh;
+  background-color: #000;
+}
+
+.history-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 16px 16px;
+}
+
+.history-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #FFF;
+}
+
+.history-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #FFF;
+  margin: 0 0 24px 0;
+}
+
+.history-date-group {
+  margin-bottom: 24px;
+}
+
+.history-date-label {
+  color: #AAA;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.history-operation-card {
+  background-color: #1C1C1E;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-operation-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.history-icon-container {
+  width: 48px;
+  height: 48px;
+  background-color: #2C2C2E;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.history-operation-icon {
+  font-size: 24px;
+}
+
+.history-operation-description {
+  color: #AAA;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.history-operation-time {
+  color: #666;
+  font-size: 12px;
+}
+
+.history-operation-amount {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.history-operation-amount.expense {
+  color: #FF5733;
+}
+
+.history-operation-amount.income {
+  color: #33FF57;
+}
+
+.history-empty {
+  text-align: center;
+  margin-top: 64px;
+}
+
+.history-empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.history-empty-text {
+  color: #666;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .history-container {
+    padding-top: 60px;
+  }
+}

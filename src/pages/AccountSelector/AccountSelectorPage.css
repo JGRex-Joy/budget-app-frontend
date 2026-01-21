@@ -1,0 +1,165 @@
+.account-selector-page {
+  min-height: 100vh;
+  background-color: #000;
+  padding: 16px;
+}
+
+.account-selector-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.account-selector-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #FFF;
+}
+
+.account-selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 24px;
+}
+
+.account-selector-category-info {
+  display: flex;
+  align-items: center;
+  background-color: #1C1C1E;
+  padding: 12px;
+  border-radius: 12px;
+  gap: 12px;
+}
+
+.account-selector-category-icon {
+  font-size: 28px;
+}
+
+.account-selector-category-name {
+  color: #FFF;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.account-selector-category-type {
+  color: #AAA;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.account-selector-close {
+  background: none;
+  border: none;
+  color: #FFF;
+  font-size: 24px;
+  padding: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.account-selector-close:hover {
+  opacity: 0.7;
+}
+
+.account-selector-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #FFF;
+  margin: 0 0 20px 0;
+}
+
+.account-selector-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.account-selector-card {
+  background-color: #1C1C1E;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.account-selector-card:hover {
+  border-color: #FF9500;
+  background-color: #2C2C2E;
+}
+
+.account-selector-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.account-selector-icon-container {
+  width: 56px;
+  height: 56px;
+  background-color: #2C2C2E;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-selector-icon {
+  font-size: 28px;
+}
+
+.account-selector-name {
+  color: #FFF;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.account-selector-currency {
+  color: #AAA;
+  font-size: 14px;
+}
+
+.account-selector-right {
+  text-align: right;
+}
+
+.account-selector-balance {
+  color: #FF9500;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.account-selector-balance-label {
+  color: #666;
+  font-size: 12px;
+}
+
+.account-selector-empty {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.account-selector-empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.account-selector-empty-text {
+  color: #FFF;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.account-selector-empty-hint {
+  color: #666;
+  font-size: 14px;
+}

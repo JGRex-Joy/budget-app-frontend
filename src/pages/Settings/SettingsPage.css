@@ -1,0 +1,167 @@
+.settings-page {
+  min-height: 100vh;
+  background-color: #000;
+}
+
+.settings-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 16px 100px;
+}
+
+.settings-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #FFF;
+  margin: 0 0 24px 0;
+}
+
+.settings-profile-card {
+  background-color: #1C1C1E;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.settings-profile-info {
+  flex: 1;
+}
+
+.settings-profile-name {
+  color: #FFF;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.settings-profile-email {
+  color: #AAA;
+  font-size: 14px;
+}
+
+.settings-section {
+  margin-bottom: 24px;
+}
+
+.settings-section-title {
+  color: #AAA;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.settings-item {
+  background-color: #1C1C1E;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+}
+
+.settings-item:hover {
+  background-color: #2C2C2E;
+}
+
+.settings-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.settings-item-icon {
+  font-size: 24px;
+}
+
+.settings-item-title {
+  color: #FFF;
+  font-size: 16px;
+}
+
+.settings-item-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-item-value {
+  color: #AAA;
+  font-size: 14px;
+}
+
+.settings-item-arrow {
+  color: #666;
+  font-size: 24px;
+}
+
+.settings-logout-button {
+  width: 100%;
+  background-color: #FF3B30;
+  border: none;
+  border-radius: 12px;
+  padding: 18px;
+  color: #FFF;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 24px;
+}
+
+.settings-logout-button:hover {
+  background-color: #e63329;
+  transform: translateY(-2px);
+}
+
+.settings-version {
+  color: #666;
+  text-align: center;
+  margin-top: 24px;
+  font-size: 12px;
+}
+
+.settings-modal-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settings-modal-option {
+  background-color: #2C2C2E;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #FFF;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.settings-modal-option:hover {
+  background-color: #3C3C3E;
+}
+
+.settings-modal-option.active {
+  background-color: #FF9500;
+}
+
+.settings-modal-check {
+  color: #FFF;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .settings-container {
+    padding-top: 60px;
+  }
+}
