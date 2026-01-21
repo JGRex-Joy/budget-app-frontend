@@ -1,0 +1,31 @@
+.input {
+  background-color: #2C2C2E;
+  border: none;
+  border-radius: 12px;
+  padding: 15px;
+  color: #FFF;
+  font-size: 16px;
+  width: 100%;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #666;
+}
+
+.input:focus {
+  background-color: #333;
+  box-shadow: 0 0 0 2px #FF9500;
+}
+
+.input-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .input {
+    font-size: 16px; /* Prevent zoom on mobile */
+  }
+}
