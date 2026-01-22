@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/JGRex-Joy/budget-app-frontend/static/css/main.8a9617da.css",
+    "main.js": "/JGRex-Joy/budget-app-frontend/static/js/main.19828ff8.js",
+    "index.html": "/JGRex-Joy/budget-app-frontend/index.html",
+    "main.8a9617da.css.map": "/JGRex-Joy/budget-app-frontend/static/css/main.8a9617da.css.map",
+    "main.19828ff8.js.map": "/JGRex-Joy/budget-app-frontend/static/js/main.19828ff8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8a9617da.css",
+    "static/js/main.19828ff8.js"
+  ]
+}
