@@ -15,9 +15,24 @@ const HomePage = () => {
   const [activeTab, setActiveTab] = useState('expense');
   const [loading, setLoading] = useState(true);
 
+  // Первый useEffect - для инициализации
   useEffect(() => {
     initializeApp();
   }, []);
+
+  // НОВЫЙ useEffect - для автообновления данных
+  useEffect(() => {
+    // Перезагружаем данные при возврате на страницу
+    const handleFocus = () => {
+      loadData();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, []); // ← Добавьте этот useEffect здесь
 
   const initializeApp = async () => {
     try {
@@ -54,14 +69,21 @@ const HomePage = () => {
     try {
       const existingCategories = await categoriesAPI.getAll();
       
-      if (!existingCategories.data || existingCategories.data.length === 0) {
-        for (const cat of DEFAULT_EXPENSE_CATEGORIES) {
-          await categoriesAPI.create({ ...cat, type: 'expense' });
-        }
-        for (const cat of DEFAULT_INCOME_CATEGORIES) {
-          await categoriesAPI.create({ ...cat, type: 'income' });
-        }
+      // Проверяем, есть ли уже категории (любые)
+      if (existingCategories.data && existingCategories.data.length > 0) {
+        console.log('Категории уже существуют, пропускаем создание');
+        return; // Если есть хоть одна категория - не создаём новые
       }
+
+      // Создаём только если категорий вообще нет
+      console.log('Создаём дефолтные категории...');
+      for (const cat of DEFAULT_EXPENSE_CATEGORIES) {
+        await categoriesAPI.create({ ...cat, type: 'expense' });
+      }
+      for (const cat of DEFAULT_INCOME_CATEGORIES) {
+        await categoriesAPI.create({ ...cat, type: 'income' });
+      }
+      console.log('Дефолтные категории созданы');
     } catch (error) {
       console.error('Error creating default categories:', error);
     }
@@ -89,14 +111,17 @@ const HomePage = () => {
   };
 
   const handleCategoryPress = (category) => {
+    // Сохраняем категорию в sessionStorage для передачи между страницами
+    sessionStorage.setItem('selectedCategory', JSON.stringify(category));
+    
     navigate('/account-selector', {
-      state: { category, onComplete: loadData }
+      state: { category } // Передаём только данные, не функции
     });
   };
 
   const handleAddCategory = () => {
     navigate('/add-category', {
-      state: { type: activeTab, onComplete: loadData }
+      state: { type: activeTab }
     });
   };
 

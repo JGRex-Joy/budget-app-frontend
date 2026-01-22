@@ -32,7 +32,8 @@ const AddCategoryPage = () => {
       });
 
       alert('Категория добавлена');
-      navigate(-1);
+      // Возвращаемся назад
+      navigate('/', { replace: true });
     } catch (error) {
       alert('Не удалось создать категорию');
     } finally {

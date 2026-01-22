@@ -50,8 +50,10 @@ const CalculatorPage = () => {
       });
 
       alert('Операция добавлена');
-      navigate('/');
+      // Возвращаемся на главную страницу
+      navigate('/', { replace: true });
     } catch (error) {
+      console.error('Error creating operation:', error);
       alert(error.response?.data?.detail || 'Не удалось создать операцию');
     }
   };
