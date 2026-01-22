@@ -1,70 +1,259 @@
-# Getting Started with Create React App
+# Budget App 💰
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### **🔗[Live Demo](https://jgrex-joy.github.io/budget-app-frontend/)** | **📦[Backend](https://github.com/JGRex-Joy/budget-app-backend)**
 
-## Available Scripts
+A modern full-stack budget management application built with FastAPI and React. Track your income, expenses, and manage multiple accounts with an intuitive mobile-first interface.
 
-In the project directory, you can run:
+## 🌟 Features
 
-### `npm start`
+- **User Authentication**: Secure registration and login with JWT tokens
+- **Multiple Accounts**: Create and manage multiple financial accounts with custom icons
+- **Category Management**: Organize transactions with customizable expense and income categories
+- **Transaction Tracking**: Record and view detailed transaction history
+- **Real-time Balance**: Track total budget across all accounts
+- **Responsive Design**: Mobile-first design with smooth animations and intuitive UI
+- **Dark Theme**: Modern dark interface optimized for readability
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🏗️ Architecture
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Backend (FastAPI)
+- **Framework**: FastAPI with SQLAlchemy ORM
+- **Database**: PostgreSQL with SSL support
+- **Authentication**: JWT-based authentication with Argon2 password hashing
+- **Architecture**: Repository pattern with service layer separation
+- **API Documentation**: Auto-generated OpenAPI/Swagger docs
 
-### `npm test`
+### Frontend (React)
+- **Framework**: React 18 with React Router
+- **State Management**: Context API for authentication
+- **HTTP Client**: Axios with interceptors
+- **Styling**: Pure CSS with modern design patterns
+- **Responsive**: Mobile-first responsive design
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📁 Project Structure
 
-### `npm run build`
+```
+budget-app/
+├── app/                          # Backend application
+│   ├── core/                     # Core configuration
+│   │   ├── config.py            # Settings and environment variables
+│   │   └── database.py          # Database connection and session
+│   ├── models/                   # SQLAlchemy models
+│   │   ├── user.py              # User model
+│   │   ├── account.py           # Account model
+│   │   ├── category.py          # Category model
+│   │   └── operation.py         # Operation/Transaction model
+│   ├── repositories/             # Data access layer
+│   ├── services/                 # Business logic layer
+│   ├── routes/                   # API endpoints
+│   ├── schemas/                  # Pydantic schemas
+│   └── main.py                   # Application entry point
+│
+└── src/                          # Frontend application
+    ├── components/               # Reusable components
+    │   ├── common/              # Common UI components
+    │   └── layout/              # Layout components
+    ├── pages/                    # Page components
+    │   ├── Auth/                # Authentication page
+    │   ├── Home/                # Dashboard/Home page
+    │   ├── History/             # Transaction history
+    │   ├── Accounts/            # Account management
+    │   ├── Settings/            # User settings
+    │   └── Calculator/          # Transaction input
+    ├── context/                  # React Context
+    ├── services/                 # API services
+    ├── routes/                   # Route configuration
+    └── utils/                    # Utility functions
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Python 3.8+
+- Node.js 14+
+- PostgreSQL database
 
-### `npm run eject`
+### Backend Setup
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd budget-app
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. **Create virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. **Configure environment variables**
+   
+   Create a `.env` file in the root directory:
+   ```env
+   DATABASE_URL=postgresql://user:password@host:port/database?sslmode=require
+   SECRET_KEY=your-secret-key-here
+   ALGORITHM=HS256
+   ACCESS_TOKEN_EXPIRE_MINUTES=10080
+   ```
 
-## Learn More
+5. **Run the backend**
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+   Backend will be available at `http://localhost:8000`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Frontend Setup
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. **Navigate to frontend directory**
+   ```bash
+   cd src
+   ```
 
-### Code Splitting
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+3. **Configure API endpoint**
+   
+   Update `API_BASE_URL` in `src/services/api.js` if needed
 
-### Analyzing the Bundle Size
+4. **Run the development server**
+   ```bash
+   npm start
+   ```
+   Frontend will be available at `http://localhost:3000`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 📊 Database Schema
 
-### Making a Progressive Web App
+### Users
+- Email, username, and hashed password
+- Created/updated timestamps
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Accounts
+- User-specific accounts with name, balance, currency, and icon
+- Tracks financial accounts (bank, cash, cards, etc.)
 
-### Advanced Configuration
+### Categories
+- Expense and income categories
+- Custom icons and colors
+- User-specific customization
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Operations
+- Financial transactions linking accounts and categories
+- Amount, description, and operation date
+- Automatic balance updates
 
-### Deployment
+## 🔐 API Endpoints
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Authentication
+- `POST /auth/register` - User registration
+- `POST /auth/login` - User login
 
-### `npm run build` fails to minify
+### Users
+- `GET /users/me` - Get current user profile
+- `PUT /users/me` - Update user profile
+- `DELETE /users/me` - Delete user account
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Accounts
+- `GET /accounts/` - Get all user accounts
+- `POST /accounts/` - Create new account
+- `GET /accounts/{id}` - Get specific account
+- `PUT /accounts/{id}` - Update account
+- `DELETE /accounts/{id}` - Delete account
+- `GET /accounts/balance` - Get total balance
+
+### Categories
+- `GET /categories/` - Get all categories
+- `POST /categories/` - Create new category
+- `GET /categories/with-balances` - Get categories with totals
+- `PUT /categories/{id}` - Update category
+- `DELETE /categories/{id}` - Delete category
+
+### Operations
+- `GET /operations/` - Get all operations (with filters)
+- `POST /operations/` - Create new operation
+- `GET /operations/details` - Get operations with details
+- `PUT /operations/{id}` - Update operation
+- `DELETE /operations/{id}` - Delete operation
+
+## 🎨 Key Features
+
+### Smart Calculator
+- Custom calculator interface for entering transaction amounts
+- Keyboard support for faster input
+- Visual feedback and error handling
+
+### Account Selector
+- Visual selection of accounts when creating transactions
+- Real-time balance display
+- Icon-based identification
+
+### Category Management
+- Pre-populated default categories
+- Custom category creation with icons
+- Separate expense and income categories
+
+### Transaction History
+- Grouped by date (Today, Yesterday, specific dates)
+- Color-coded by transaction type
+- Detailed view with category and account information
+
+## 🔧 Technologies Used
+
+### Backend
+- **FastAPI** - Modern Python web framework
+- **SQLAlchemy** - SQL toolkit and ORM
+- **Pydantic** - Data validation
+- **python-jose** - JWT token handling
+- **passlib** - Password hashing with Argon2
+- **PostgreSQL** - Production database
+
+### Frontend
+- **React** - UI library
+- **React Router** - Client-side routing
+- **Axios** - HTTP client
+- **Context API** - State management
+- **CSS3** - Modern styling with animations
+
+## 📱 Responsive Design
+
+The application is fully responsive with:
+- Mobile-first approach
+- Tablet optimization
+- Desktop layouts
+- Touch-friendly interface
+- Smooth animations and transitions
+
+## 🛡️ Security
+
+- Password hashing with Argon2
+- JWT token-based authentication
+- Protected API endpoints
+- CORS configuration
+- SQL injection prevention via ORM
+- Input validation with Pydantic
+
+## 📝 License
+
+This project was created for FlavorTown - HackClub
+
+## 🤝 Contributing
+
+This is a practice project. Feel free to fork and modify for your own learning purposes.
+
+## 📧 Contact
+
+For questions or feedback about this project, please open an issue in the repository.
+
+---
+
+**Version**: 1.0.0  
+**Created**: January 2026
