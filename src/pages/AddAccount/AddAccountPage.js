@@ -29,8 +29,7 @@ const AddAccountPage = () => {
       });
 
       alert('Счет добавлен');
-      // Возвращаемся на страницу счетов
-      navigate('/accounts', { replace: true });
+      navigate('/accounts');
     } catch (error) {
       alert('Не удалось создать счет');
     } finally {

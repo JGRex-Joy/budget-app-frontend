@@ -14,25 +14,26 @@ const HomePage = () => {
   const [userName, setUserName] = useState('');
   const [activeTab, setActiveTab] = useState('expense');
   const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
 
-  // Первый useEffect - для инициализации
   useEffect(() => {
-    initializeApp();
-  }, []);
+    if (!initialized) {
+      initializeApp();
+      setInitialized(true);
+    }
+  }, [initialized]);
 
-  // НОВЫЙ useEffect - для автообновления данных
+  // Перезагрузка данных при возврате на страницу
   useEffect(() => {
-    // Перезагружаем данные при возврате на страницу
     const handleFocus = () => {
-      loadData();
+      if (initialized && !loading) {
+        loadData();
+      }
     };
-
-    window.addEventListener('focus', handleFocus);
     
-    return () => {
-      window.removeEventListener('focus', handleFocus);
-    };
-  }, []); // ← Добавьте этот useEffect здесь
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [initialized, loading]);
 
   const initializeApp = async () => {
     try {
@@ -69,21 +70,14 @@ const HomePage = () => {
     try {
       const existingCategories = await categoriesAPI.getAll();
       
-      // Проверяем, есть ли уже категории (любые)
-      if (existingCategories.data && existingCategories.data.length > 0) {
-        console.log('Категории уже существуют, пропускаем создание');
-        return; // Если есть хоть одна категория - не создаём новые
+      if (!existingCategories.data || existingCategories.data.length === 0) {
+        for (const cat of DEFAULT_EXPENSE_CATEGORIES) {
+          await categoriesAPI.create({ ...cat, type: 'expense' });
+        }
+        for (const cat of DEFAULT_INCOME_CATEGORIES) {
+          await categoriesAPI.create({ ...cat, type: 'income' });
+        }
       }
-
-      // Создаём только если категорий вообще нет
-      console.log('Создаём дефолтные категории...');
-      for (const cat of DEFAULT_EXPENSE_CATEGORIES) {
-        await categoriesAPI.create({ ...cat, type: 'expense' });
-      }
-      for (const cat of DEFAULT_INCOME_CATEGORIES) {
-        await categoriesAPI.create({ ...cat, type: 'income' });
-      }
-      console.log('Дефолтные категории созданы');
     } catch (error) {
       console.error('Error creating default categories:', error);
     }
@@ -111,11 +105,8 @@ const HomePage = () => {
   };
 
   const handleCategoryPress = (category) => {
-    // Сохраняем категорию в sessionStorage для передачи между страницами
-    sessionStorage.setItem('selectedCategory', JSON.stringify(category));
-    
     navigate('/account-selector', {
-      state: { category } // Передаём только данные, не функции
+      state: { category }
     });
   };
 

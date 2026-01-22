@@ -13,6 +13,18 @@ const AccountsPage = () => {
     loadAccounts();
   }, []);
 
+  // Перезагрузка при возврате на страницу
+  useEffect(() => {
+    const handleFocus = () => {
+      if (!loading) {
+        loadAccounts();
+      }
+    };
+    
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [loading]);
+
   const loadAccounts = async () => {
     try {
       setLoading(true);
@@ -35,6 +47,10 @@ const AccountsPage = () => {
     } catch (error) {
       alert(error.response?.data?.detail || 'Не удалось удалить счет');
     }
+  };
+
+  const handleAddAccount = () => {
+    navigate('/add-account');
   };
 
   const getTotalBalance = () => {
@@ -94,7 +110,7 @@ const AccountsPage = () => {
         )}
 
         <div className="accounts-add-button">
-          <Button onClick={() => navigate('/add-account', { state: { onComplete: loadAccounts } })}>
+          <Button onClick={handleAddAccount}>
             + Добавить счет
           </Button>
         </div>
