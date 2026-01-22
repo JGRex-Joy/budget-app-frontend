@@ -13,12 +13,15 @@ const AddCategoryPage = () => {
   const [name, setName] = useState('');
   const [selectedIcon, setSelectedIcon] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     
     if (!name || !selectedIcon) {
-      alert('Заполните все поля');
+      setError('Заполните все поля');
       return;
     }
 
@@ -31,10 +34,12 @@ const AddCategoryPage = () => {
         color: '#FF9500',
       });
 
-      alert('Категория добавлена');
-      navigate('/');
+      setSuccess(true);
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
     } catch (error) {
-      alert('Не удалось создать категорию');
+      setError(error.response?.data?.detail || 'Не удалось создать категорию');
     } finally {
       setLoading(false);
     }
@@ -47,6 +52,18 @@ const AddCategoryPage = () => {
           Добавить категорию ({type === 'expense' ? 'Расход' : 'Доход'})
         </h1>
 
+        {error && (
+          <div className="add-category-error">
+            {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="add-category-success">
+            Категория успешно добавлена!
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="add-category-form">
           <div className="add-category-field">
             <label className="add-category-label">Название</label>
@@ -54,7 +71,7 @@ const AddCategoryPage = () => {
               placeholder="Введите название"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              disabled={loading}
+              disabled={loading || success}
             />
           </div>
 
@@ -67,7 +84,7 @@ const AddCategoryPage = () => {
                   type="button"
                   className={`add-category-icon-button ${selectedIcon === icon ? 'active' : ''}`}
                   onClick={() => setSelectedIcon(icon)}
-                  disabled={loading}
+                  disabled={loading || success}
                 >
                   {icon}
                 </button>
@@ -75,7 +92,7 @@ const AddCategoryPage = () => {
             </div>
           </div>
 
-          <Button type="submit" loading={loading}>
+          <Button type="submit" loading={loading} disabled={success}>
             Добавить
           </Button>
         </form>

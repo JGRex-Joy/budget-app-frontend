@@ -11,12 +11,15 @@ const AddAccountPage = () => {
   const [name, setName] = useState('');
   const [selectedIcon, setSelectedIcon] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     
     if (!name || !selectedIcon) {
-      alert('Заполните все обязательные поля');
+      setError('Заполните все обязательные поля');
       return;
     }
 
@@ -28,10 +31,12 @@ const AddAccountPage = () => {
         icon: selectedIcon,
       });
 
-      alert('Счет добавлен');
-      navigate('/accounts');
+      setSuccess(true);
+      setTimeout(() => {
+        navigate('/accounts');
+      }, 1000);
     } catch (error) {
-      alert('Не удалось создать счет');
+      setError(error.response?.data?.detail || 'Не удалось создать счет');
     } finally {
       setLoading(false);
     }
@@ -42,6 +47,18 @@ const AddAccountPage = () => {
       <div className="add-account-container">
         <h1 className="add-account-title">Новый счет</h1>
 
+        {error && (
+          <div className="add-account-error">
+            {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="add-account-success">
+            Счет успешно добавлен!
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="add-account-form">
           <div className="add-account-field">
             <label className="add-account-label">Название счета</label>
@@ -49,7 +66,7 @@ const AddAccountPage = () => {
               placeholder="Например: Основной счет"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              disabled={loading}
+              disabled={loading || success}
             />
           </div>
 
@@ -62,7 +79,7 @@ const AddAccountPage = () => {
                   type="button"
                   className={`add-account-icon-button ${selectedIcon === icon ? 'active' : ''}`}
                   onClick={() => setSelectedIcon(icon)}
-                  disabled={loading}
+                  disabled={loading || success}
                 >
                   {icon}
                 </button>
@@ -70,7 +87,7 @@ const AddAccountPage = () => {
             </div>
           </div>
 
-          <Button type="submit" loading={loading}>
+          <Button type="submit" loading={loading} disabled={success}>
             Создать счет
           </Button>
         </form>

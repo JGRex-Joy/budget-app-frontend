@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { operationsAPI } from '../../services/api';
 import './CalculatorPage.css';
@@ -8,9 +8,33 @@ const CalculatorPage = () => {
   const location = useLocation();
   const { category, account } = location.state || {};
   const [amount, setAmount] = useState('0');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key >= '0' && e.key <= '9') {
+        handleNumberPress(e.key);
+      } else if (e.key === '.') {
+        handleNumberPress('.');
+      } else if (e.key === 'Backspace') {
+        handleDelete();
+      } else if (e.key === 'Escape') {
+        handleClear();
+      } else if (e.key === 'Enter') {
+        handleSubmit();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [amount]);
 
   const handleNumberPress = (num) => {
-    if (amount === '0') {
+    setError('');
+    if (num === '.' && amount.includes('.')) return;
+    
+    if (amount === '0' && num !== '.') {
       setAmount(num);
     } else {
       setAmount(amount + num);
@@ -18,6 +42,7 @@ const CalculatorPage = () => {
   };
 
   const handleDelete = () => {
+    setError('');
     if (amount.length === 1) {
       setAmount('0');
     } else {
@@ -27,16 +52,18 @@ const CalculatorPage = () => {
 
   const handleClear = () => {
     setAmount('0');
+    setError('');
   };
 
   const handleSubmit = async () => {
     if (!account || !account.id) {
-      alert('Счет не найден');
+      setError('Счет не найден');
       return;
     }
 
-    if (parseFloat(amount) === 0) {
-      alert('Введите сумму');
+    const numAmount = parseFloat(amount);
+    if (numAmount === 0 || isNaN(numAmount)) {
+      setError('Введите корректную сумму');
       return;
     }
 
@@ -44,23 +71,28 @@ const CalculatorPage = () => {
       await operationsAPI.create({
         account_id: account.id,
         category_id: category.id,
-        amount: parseFloat(amount),
+        amount: numAmount,
         description: `${category.name} операция`,
         operation_date: new Date().toISOString(),
       });
 
-      alert('Операция добавлена');
-      // Возвращаемся на главную страницу
-      navigate('/', { replace: true });
+      setSuccess(true);
+      setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 500);
     } catch (error) {
       console.error('Error creating operation:', error);
-      alert(error.response?.data?.detail || 'Не удалось создать операцию');
+      setError(error.response?.data?.detail || 'Не удалось создать операцию');
     }
   };
 
   return (
     <div className="calculator-page">
       <div className="calculator-container">
+        <div className="calculator-hint">
+          Подсказка: используйте клавиатуру для ввода
+        </div>
+
         <div className="calculator-header">
           <div className="calculator-category-badge">
             <span className="calculator-category-icon">{category?.icon}</span>
@@ -78,6 +110,18 @@ const CalculatorPage = () => {
         <div className="calculator-display">
           <div className="calculator-display-text">{amount}с</div>
         </div>
+
+        {error && (
+          <div className="calculator-error">
+            {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="calculator-success">
+            Операция успешно добавлена!
+          </div>
+        )}
 
         <div className="calculator-keyboard">
           <div className="calculator-top-controls">
@@ -102,9 +146,10 @@ const CalculatorPage = () => {
           <div className="calculator-bottom-row">
             <button className="calculator-number-button zero" onClick={() => handleNumberPress('0')}>0</button>
             <button className="calculator-number-button" onClick={() => handleNumberPress('.')}>.</button>
-            <button className="calculator-submit-button" onClick={handleSubmit}>✓</button>
+            <button className="calculator-submit-button" onClick={handleSubmit} disabled={success}>✓</button>
           </div>
         </div>
+
       </div>
     </div>
   );

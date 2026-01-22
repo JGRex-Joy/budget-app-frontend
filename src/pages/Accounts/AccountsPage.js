@@ -2,18 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { accountsAPI } from '../../services/api';
 import Button from '../../components/common/Button/Button';
+import Modal from '../../components/common/Modal/Modal';
 import './AccountsPage.css';
 
 const AccountsPage = () => {
   const navigate = useNavigate();
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [accountToDelete, setAccountToDelete] = useState(null);
+  const [deleteError, setDeleteError] = useState('');
 
   useEffect(() => {
     loadAccounts();
   }, []);
 
-  // Перезагрузка при возврате на страницу
   useEffect(() => {
     const handleFocus = () => {
       if (!loading) {
@@ -37,25 +40,26 @@ const AccountsPage = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Вы уверены, что хотите удалить этот счет?')) return;
+  const handleDeleteClick = (account) => {
+    setAccountToDelete(account);
+    setDeleteModalOpen(true);
+    setDeleteError('');
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!accountToDelete) return;
     
     try {
-      console.log('Deleting account with id:', id);
-      const response = await accountsAPI.delete(id);
-      console.log('Delete response:', response);
-      
-      alert('Счет успешно удален');
-      // Перезагружаем список счетов
+      await accountsAPI.delete(accountToDelete.id);
       await loadAccounts();
+      setDeleteModalOpen(false);
+      setAccountToDelete(null);
     } catch (error) {
       console.error('Delete error:', error);
-      console.error('Error response:', error.response);
-      
       const errorMessage = error.response?.data?.detail || 
                           error.response?.data?.message ||
                           'Не удалось удалить счет';
-      alert(errorMessage);
+      setDeleteError(errorMessage);
     }
   };
 
@@ -102,7 +106,7 @@ const AccountsPage = () => {
                 <div className="account-balance">{account.balance} с</div>
                 <button 
                   className="account-delete"
-                  onClick={() => handleDelete(account.id)}
+                  onClick={() => handleDeleteClick(account)}
                 >
                   🗑️
                 </button>
@@ -125,6 +129,55 @@ const AccountsPage = () => {
           </Button>
         </div>
       </div>
+
+      <Modal
+        isOpen={deleteModalOpen}
+        onClose={() => {
+          setDeleteModalOpen(false);
+          setAccountToDelete(null);
+          setDeleteError('');
+        }}
+        title="Удалить счет?"
+      >
+        <div className="delete-modal-content">
+          {accountToDelete && (
+            <>
+              <div className="delete-modal-account">
+                <span className="delete-modal-icon">{accountToDelete.icon}</span>
+                <div>
+                  <div className="delete-modal-name">{accountToDelete.name}</div>
+                  <div className="delete-modal-balance">Баланс: {accountToDelete.balance} с</div>
+                </div>
+              </div>
+              
+              {deleteError && (
+                <div className="delete-modal-error">
+                  {deleteError}
+                </div>
+              )}
+
+              <div className="delete-modal-buttons">
+                <Button 
+                  variant="secondary"
+                  onClick={() => {
+                    setDeleteModalOpen(false);
+                    setAccountToDelete(null);
+                    setDeleteError('');
+                  }}
+                >
+                  Отмена
+                </Button>
+                <Button 
+                  variant="danger"
+                  onClick={handleDeleteConfirm}
+                >
+                  Удалить
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };

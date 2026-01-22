@@ -123,11 +123,12 @@
   cursor: pointer;
   padding: 8px;
   opacity: 0.6;
-  transition: opacity 0.2s;
+  transition: all 0.2s;
 }
 
 .account-delete:hover {
   opacity: 1;
+  transform: scale(1.1);
 }
 
 .accounts-empty {
@@ -158,6 +159,53 @@
   right: 16px;
   max-width: 1168px;
   margin: 0 auto;
+}
+
+.delete-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.delete-modal-account {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: #2C2C2E;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.delete-modal-icon {
+  font-size: 32px;
+}
+
+.delete-modal-name {
+  color: #FFF;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.delete-modal-balance {
+  color: #AAA;
+  font-size: 14px;
+}
+
+.delete-modal-error {
+  background-color: rgba(255, 59, 48, 0.1);
+  border: 1px solid #FF3B30;
+  color: #FF3B30;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.delete-modal-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 @media (max-width: 768px) {

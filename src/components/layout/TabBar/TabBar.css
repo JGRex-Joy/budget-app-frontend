@@ -5,7 +5,7 @@
   right: 0;
   background-color: #000;
   border-top: 1px solid #1C1C1E;
-  padding: 10px 0;
+  padding: 6px 0;
   z-index: 100;
 }
 
@@ -25,10 +25,10 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px 16px;
+  padding: 6px 16px;
   transition: all 0.2s ease;
   color: #666;
-  gap: 4px;
+  gap: 2px;
 }
 
 .tabbar-item:hover {
@@ -41,11 +41,11 @@
 }
 
 .tabbar-icon {
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .tabbar-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
 }
 
@@ -57,19 +57,41 @@
 
 .main-content {
   flex: 1;
-  padding-bottom: 80px;
+  padding-bottom: 65px;
 }
 
 @media (max-width: 768px) {
+  .tabbar {
+    padding: 5px 0;
+  }
+
   .tabbar-item {
-    padding: 8px 12px;
+    padding: 5px 12px;
   }
   
   .tabbar-icon {
-    font-size: 22px;
+    font-size: 20px;
   }
   
   .tabbar-label {
-    font-size: 11px;
+    font-size: 10px;
+  }
+
+  .main-content {
+    padding-bottom: 60px;
+  }
+}
+
+@media (max-width: 400px) {
+  .tabbar-item {
+    padding: 5px 8px;
+  }
+  
+  .tabbar-icon {
+    font-size: 19px;
+  }
+  
+  .tabbar-label {
+    font-size: 9px;
   }
 }

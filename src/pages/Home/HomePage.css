@@ -6,7 +6,7 @@
 .home-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 16px 16px;
+  padding: 30px 16px 16px;
 }
 
 .home-loading {
@@ -203,7 +203,7 @@
 
 @media (max-width: 768px) {
   .home-container {
-    padding-top: 60px;
+    padding-top: 40px;
   }
   
   .home-categories-grid {
