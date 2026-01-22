@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { categoriesAPI, accountsAPI, userAPI } from '../../services/api';
 import { DEFAULT_EXPENSE_CATEGORIES, DEFAULT_INCOME_CATEGORIES } from '../../utils/constants';
@@ -14,26 +14,29 @@ const HomePage = () => {
   const [userName, setUserName] = useState('');
   const [activeTab, setActiveTab] = useState('expense');
   const [loading, setLoading] = useState(true);
-  const [initialized, setInitialized] = useState(false);
+  
+  // ✅ Используем useRef для предотвращения повторной инициализации
+  const initializedRef = useRef(false);
 
   useEffect(() => {
-    if (!initialized) {
+    // ✅ Проверяем и устанавливаем флаг атомарно
+    if (!initializedRef.current) {
+      initializedRef.current = true;
       initializeApp();
-      setInitialized(true);
     }
-  }, [initialized]);
+  }, []); // ✅ Пустой массив зависимостей
 
   // Перезагрузка данных при возврате на страницу
   useEffect(() => {
     const handleFocus = () => {
-      if (initialized && !loading) {
+      if (initializedRef.current && !loading) {
         loadData();
       }
     };
     
     window.addEventListener('focus', handleFocus);
     return () => window.removeEventListener('focus', handleFocus);
-  }, [initialized, loading]);
+  }, [loading]);
 
   const initializeApp = async () => {
     try {
