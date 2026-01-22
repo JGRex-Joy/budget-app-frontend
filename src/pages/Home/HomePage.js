@@ -68,18 +68,37 @@ const HomePage = () => {
 
   const createDefaultCategories = async () => {
     try {
-      const existingCategories = await categoriesAPI.getAll();
+      const response = await categoriesAPI.getAll();
+      const existingCategories = response.data || [];
       
-      if (!existingCategories.data || existingCategories.data.length === 0) {
+      // Проверяем, есть ли уже категории
+      if (existingCategories.length === 0) {
+        console.log('Creating default categories...');
+        
+        // Создаем категории расходов
         for (const cat of DEFAULT_EXPENSE_CATEGORIES) {
-          await categoriesAPI.create({ ...cat, type: 'expense' });
+          try {
+            await categoriesAPI.create({ ...cat, type: 'expense' });
+          } catch (err) {
+            console.error('Error creating expense category:', err);
+          }
         }
+        
+        // Создаем категории доходов
         for (const cat of DEFAULT_INCOME_CATEGORIES) {
-          await categoriesAPI.create({ ...cat, type: 'income' });
+          try {
+            await categoriesAPI.create({ ...cat, type: 'income' });
+          } catch (err) {
+            console.error('Error creating income category:', err);
+          }
         }
+        
+        console.log('Default categories created');
+      } else {
+        console.log(`Found ${existingCategories.length} existing categories`);
       }
     } catch (error) {
-      console.error('Error creating default categories:', error);
+      console.error('Error in createDefaultCategories:', error);
     }
   };
 

@@ -41,11 +41,21 @@ const AccountsPage = () => {
     if (!window.confirm('Вы уверены, что хотите удалить этот счет?')) return;
     
     try {
-      await accountsAPI.delete(id);
-      alert('Счет удален');
-      loadAccounts();
+      console.log('Deleting account with id:', id);
+      const response = await accountsAPI.delete(id);
+      console.log('Delete response:', response);
+      
+      alert('Счет успешно удален');
+      // Перезагружаем список счетов
+      await loadAccounts();
     } catch (error) {
-      alert(error.response?.data?.detail || 'Не удалось удалить счет');
+      console.error('Delete error:', error);
+      console.error('Error response:', error.response);
+      
+      const errorMessage = error.response?.data?.detail || 
+                          error.response?.data?.message ||
+                          'Не удалось удалить счет';
+      alert(errorMessage);
     }
   };
 

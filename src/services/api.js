@@ -25,9 +25,12 @@ api.interceptors.request.use(
 );
 
 // Response interceptor для обработки ошибок
+// Response interceptor для обработки ошибок
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.error('API Error:', error.response || error);
+    
     if (error.response?.status === 401) {
       storage.removeToken();
       window.location.href = '/auth';
